@@ -13,7 +13,6 @@ class LoanDetails extends React.Component {
         const formattedData = formatLoanDataForChart(loanDetails);
         let maxLoanValue;
         if (formattedData) {
-            console.log(formattedData)
             const { LoanAmount } = formattedData.reduce((acc, curr) => {
                 return { LoanAmount: Math.max(acc.LoanAmount, curr.LoanAmount) }
             });
