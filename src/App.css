@@ -4,14 +4,8 @@
 
 html,
 body,
-#root {
-  margin: 0;
-  height: 100%;
-}
 
 .App {
-  font-family: 'IBM Plex Mono', monospace;
-  height: 100%;
   background: #3f6c51;
   color: white;
   padding: 60px 0;
@@ -23,10 +17,13 @@ h3 {
 }
 
 input {
-  font-family: 'IBM Plex Mono', monospace;
   font-size: 28px;
   padding: 8px 15px;
   border: 0;
   border-radius: 4px;
   color: #333;
+}
+
+.recharts-cartesian-axis-tick-value {
+  fill: white;
 }
