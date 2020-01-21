@@ -1,8 +1,13 @@
 import React from 'react';
+import Cookies from 'cookies-js';
 import PaymentInput from './PaymentInput/PaymentInput';
 import LoanDetails from './LoanDetails/LoanDetails';
 import loanService from './service/LoanService';
+import userService from './service/UserService';
+import userRequestLogService from './service/UserRequestLogService';
+import userHistoryService from './service/UserHistoryService';
 import { debounce, formatLoanDetails } from './utils';
+import UserHistory from './UserHistory/UserHistory';
 
 class Container extends React.Component {
     constructor(props) {
@@ -12,28 +17,87 @@ class Container extends React.Component {
         };
     }
 
+    componentDidMount() {
+        let userId = Cookies.get("userId");
+        if (userId) {
+            userHistoryService.getUserHistory(userId).then((response) => {
+                this.setState({
+                    loanDetails: this.state.loanDetails,
+                    userRequests: response.data.slice(0, 10)
+                })
+            })
+        }
+    }
+
     render() {
-        const { loanDetails, maxPaymentAmount } = this.state;
+        const { loanDetails, maxPaymentAmount, userRequests } = this.state;
+        const userHistoryKey = userRequests && userRequests.length > 0 ? userRequests[0].created : 'userhistorykey';
         return (
             <div>
                 <PaymentInput placeholder="$0.00" type="text" onChange={
                     (e) => {
-                        this.getLoanDetails(e.target.value.replace("$", "").replace(",", ""))
+                        this.getUserAndLoanDetails(e.target.value.replace("$", "").replace(",", ""))
                     }} />
-                <LoanDetails key={maxPaymentAmount + "_1"} term={loanDetails[0].term} loanDetails={loanDetails[0].loanDetails} />
-                <LoanDetails key={maxPaymentAmount + "_2"} term={loanDetails[1].term} loanDetails={loanDetails[1].loanDetails} />
+                <UserHistory key={userHistoryKey} userRequests={userRequests} />
+                <LoanDetails key={maxPaymentAmount + "_1"}
+                    term={loanDetails[0].term} loanDetails={loanDetails[0].loanDetails} />
+                <LoanDetails key={maxPaymentAmount + "_2"}
+                    term={loanDetails[1].term} loanDetails={loanDetails[1].loanDetails} />
             </div>
         );
     }
 
-    getLoanDetails = debounce(500, (maxPaymentAmount) => {
-        loanService.getLoanDetails(maxPaymentAmount).then((response) => {
-            this.setState({
-                maxPaymentAmount,
-                loanDetails: formatLoanDetails(response.data)
-            });
+    createUserAndGetLoanDetails = (maxPaymentAmount) => {
+        userService.createUser().then((response) => {
+            if (response.data.id) {
+                const userId = response.data.id;
+                Cookies.set("userId", userId, { expires: Infinity });
+                this.getLoanDetails({ userId, maxPaymentAmount });
+            }
         });
+    }
+
+    getUserAndLoanDetails = debounce(500, (maxPaymentAmount) => {
+        let userId = Cookies.get("userId");
+        if (!userId) {
+            this.createUserAndGetLoanDetails(maxPaymentAmount);
+        }
+        else {
+            userService.getUser(userId).then((response) => {
+                if (response.status === 404) {
+                    this.createUserAndGetLoanDetails(maxPaymentAmount);
+                }
+                else if (response.status === 200) {
+                    this.getLoanDetails({ userId, maxPaymentAmount });
+                }
+            })
+        }
     });
+
+    getLoanDetails = ({ userId, maxPaymentAmount }) => {
+        let promises = [];
+        promises.push(loanService.getLoanDetails(maxPaymentAmount));
+        promises.push(userRequestLogService.createUserRequestLog({ userId, maxPaymentAmount }))
+        promises.push(userHistoryService.getUserHistory(userId))
+        Promise.all(promises).then((results) => {
+            results.map((result) => {
+                if (result.config.url.startsWith('/loan-values')) {
+                    this.setState({
+                        userRequests: this.state.userRequests,
+                        maxPaymentAmount,
+                        loanDetails: formatLoanDetails(result.data)
+                    });
+                }
+                else if (result.config.url.startsWith('/userrequestloghistory')) {
+                    this.setState({
+                        userRequests: result.data,
+                        maxPaymentAmount,
+                        loanDetails: this.state.loanDetails
+                    });
+                }
+            })
+        })
+    }
 }
 
 export default Container;
