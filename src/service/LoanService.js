@@ -9,7 +9,7 @@ class LoanService {
     }
 
     getLoanDetails(maxPaymentAmount) {
-        return this.axiosInstance.get('/loan-values?maxPaymentAmount=' + maxPaymentAmount);
+        return this.axiosInstance.get(`/loan-values?maxPaymentAmount=${maxPaymentAmount}`);
     }
 }
 
