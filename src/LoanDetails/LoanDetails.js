@@ -1,14 +1,10 @@
 import React from 'react';
 import { StyledDiv } from './LoanDetailsStyle';
 import LoanDetailsBarChartLabel from './LoanDetailsBarChartLabel';
-import { BarChart, Bar, XAxis, YAxis, CartesianGrid, Tooltip, Legend } from 'recharts';
+import { BarChart, Bar, XAxis, YAxis } from 'recharts';
 import { formatLoanDataForChart } from '../utils';
 
 class LoanDetails extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { term, loanDetails } = this.props;
         const formattedData = formatLoanDataForChart(loanDetails);

@@ -23,4 +23,4 @@ class UserRequestLogService {
     }
 }
 
-export default new UserRequestLogService;
+export default new UserRequestLogService();

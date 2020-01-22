@@ -13,4 +13,4 @@ class LoanService {
     }
 }
 
-export default new LoanService;
+export default new LoanService();

@@ -1,8 +1,18 @@
 import styled from 'styled-components';
+import { createGlobalStyle } from "styled-components";
 
 const HistoryDiv = styled.div`
-  align: center;
+  display: inline-block;
   visibility: ${props => props.userRequests ? "visible" : "hidden"};
 `;
 
-export { HistoryDiv };
+const HistoryTableStyle = createGlobalStyle`
+  table {
+    padding-right: 10px;
+    td {
+      text-align: left;
+    }      
+  }
+`;
+
+export { HistoryDiv, HistoryTableStyle };

@@ -1,10 +1,6 @@
 import React from 'react';
 
 class LoanDetailsBarChartLabel extends React.Component {
-    constructor(props) {
-        super(props);
-    }
-
     render() {
         const { x, y, fill, position, value } = this.props;
         return <text

@@ -1,13 +1,12 @@
 import React from 'react';
 import Cookies from 'cookies-js';
-import PaymentInput from './PaymentInput/PaymentInput';
 import LoanDetails from './LoanDetails/LoanDetails';
+import UserHistoryPaymentInput from './UserHistoryPaymentInput/UserHistoryPaymentInput';
 import loanService from './service/LoanService';
 import userService from './service/UserService';
 import userRequestLogService from './service/UserRequestLogService';
 import userHistoryService from './service/UserHistoryService';
 import { debounce, formatLoanDetails } from './utils';
-import UserHistory from './UserHistory/UserHistory';
 
 class Container extends React.Component {
     constructor(props) {
@@ -31,18 +30,20 @@ class Container extends React.Component {
 
     render() {
         const { loanDetails, maxPaymentAmount, userRequests } = this.state;
-        const userHistoryKey = userRequests && userRequests.length > 0 ? userRequests[0].created : 'userhistorykey';
         return (
             <div>
-                <PaymentInput placeholder="$0.00" type="text" onChange={
-                    (e) => {
-                        this.getUserAndLoanDetails(e.target.value.replace("$", "").replace(",", ""))
-                    }} />
-                <UserHistory key={userHistoryKey} userRequests={userRequests} />
-                <LoanDetails key={maxPaymentAmount + "_1"}
-                    term={loanDetails[0].term} loanDetails={loanDetails[0].loanDetails} />
-                <LoanDetails key={maxPaymentAmount + "_2"}
-                    term={loanDetails[1].term} loanDetails={loanDetails[1].loanDetails} />
+                <div>
+                    <UserHistoryPaymentInput userRequests={userRequests} placeholder="$0.00" type="text" onChange={
+                        (e) => {
+                            this.getUserAndLoanDetails(e.target.value.replace("$", "").replace(",", ""))
+                        }}/>
+                </div>
+                <div>
+                    <LoanDetails key={maxPaymentAmount + "_1"}
+                        term={loanDetails[0].term} loanDetails={loanDetails[0].loanDetails} />
+                    <LoanDetails key={maxPaymentAmount + "_2"}
+                        term={loanDetails[1].term} loanDetails={loanDetails[1].loanDetails} />
+                </div>
             </div>
         );
     }
@@ -64,11 +65,12 @@ class Container extends React.Component {
         }
         else {
             userService.getUser(userId).then((response) => {
-                if (response.status === 404) {
-                    this.createUserAndGetLoanDetails(maxPaymentAmount);
-                }
-                else if (response.status === 200) {
+                if (response.status === 200) {
                     this.getLoanDetails({ userId, maxPaymentAmount });
+                }
+            }).catch((e) => {
+                if (e.response.status === 404) {
+                    this.createUserAndGetLoanDetails(maxPaymentAmount);
                 }
             })
         }
@@ -78,8 +80,7 @@ class Container extends React.Component {
         let promises = [];
         promises.push(loanService.getLoanDetails(maxPaymentAmount));
         promises.push(userRequestLogService.createUserRequestLog({ userId, maxPaymentAmount }))
-        promises.push(userHistoryService.getUserHistory(userId))
-        Promise.all(promises).then((results) => {
+        Promise.all(promises).then((results) => (
             results.map((result) => {
                 if (result.config.url.startsWith('/loan-values')) {
                     this.setState({
@@ -88,15 +89,8 @@ class Container extends React.Component {
                         loanDetails: formatLoanDetails(result.data)
                     });
                 }
-                else if (result.config.url.startsWith('/userrequestloghistory')) {
-                    this.setState({
-                        userRequests: result.data,
-                        maxPaymentAmount,
-                        loanDetails: this.state.loanDetails
-                    });
-                }
             })
-        })
+        ))
     }
 }
 

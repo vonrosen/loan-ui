@@ -22,7 +22,7 @@ const PaymentInput = ({ maskOptions, ...inputProps }) => {
     ...maskOptions,
   })
 
-  return <MaskedInput mask={currencyMask} {...inputProps} />
+  return <MaskedInput mask={currencyMask} {...inputProps} />;
 }
 
 PaymentInput.defaultProps = {

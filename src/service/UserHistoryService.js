@@ -18,4 +18,4 @@ class UserHistoryService {
 
 }
 
-export default new UserHistoryService;
+export default new UserHistoryService();
