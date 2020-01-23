@@ -6,7 +6,7 @@ import loanService from './service/LoanService';
 import userService from './service/UserService';
 import userRequestLogService from './service/UserRequestLogService';
 import userHistoryService from './service/UserHistoryService';
-import { debounce, formatLoanDetails } from './utils';
+import { debounce, formatLoanDetails, formatUserHistory } from './utils';
 
 class Container extends React.Component {
     constructor(props) {
@@ -22,7 +22,7 @@ class Container extends React.Component {
             userHistoryService.getUserHistory(userId).then((response) => {
                 this.setState({
                     loanDetails: this.state.loanDetails,
-                    userRequests: response.data.slice(0, 10)
+                    userRequests: formatUserHistory(response.data.slice(0, 5))
                 })
             })
         }

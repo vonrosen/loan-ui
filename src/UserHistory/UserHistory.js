@@ -1,5 +1,5 @@
 import React from 'react';
-import { HistoryDiv, HistoryTableStyle } from './UserHistoryStyle';
+import { HistoryDiv, HistoryTitleDiv } from './UserHistoryStyle';
 
 class UserHistory extends React.Component {
     render() {
@@ -7,18 +7,12 @@ class UserHistory extends React.Component {
         if (userRequests) {
             return (
                 <HistoryDiv userRequests={userRequests}>
-                    <HistoryTableStyle/>
-                    <table>
-                        <tbody>
-                            {userRequests.map((userRequest) => (
-                                <tr key={userRequest.created}>
-                                    <td>                                    
-                                        {userRequest.maxPaymentAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}
-                                    </td>
-                                </tr>
-                            ))}
-                        </tbody>
-                    </table>
+                    <HistoryTitleDiv >Previous Queries</HistoryTitleDiv>
+                        {userRequests.map((userRequest) => (
+                            <div key={userRequest.maxPaymentAmount}>
+                                {userRequest.maxPaymentAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}<br/>
+                            </div>
+                        ))}  
                 </HistoryDiv>
             );
         }

@@ -1,18 +1,14 @@
 import styled from 'styled-components';
-import { createGlobalStyle } from "styled-components";
 
 const HistoryDiv = styled.div`
-  display: inline-block;
+  padding-right: 50px;
   visibility: ${props => props.userRequests ? "visible" : "hidden"};
 `;
 
-const HistoryTableStyle = createGlobalStyle`
-  table {
-    padding-right: 10px;
-    td {
-      text-align: left;
-    }      
-  }
+const HistoryTitleDiv = styled.div`
+  text-align: center;
+  font-size: 18px;
+  padding-bottom: 10px;
 `;
 
-export { HistoryDiv, HistoryTableStyle };
+export { HistoryDiv, HistoryTitleDiv };

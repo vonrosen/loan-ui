@@ -27,7 +27,7 @@ const formatLoanDetails = (loanDetails) => {
 
 const formatLoanDataForChart = (loanDetails) => {
     if (loanDetails) {
-        return loanDetails.map(({rateTimesHundred, loanAmountCents}) => {
+        return loanDetails.map(({ rateTimesHundred, loanAmountCents }) => {
             return {
                 Rate: `${(rateTimesHundred / 100)} %`,
                 LoanAmount: (loanAmountCents / 100)
@@ -36,4 +36,16 @@ const formatLoanDataForChart = (loanDetails) => {
     }
 }
 
-export { debounce, formatLoanDetails, formatLoanDataForChart };
+const formatUserHistory = (userHistory) => {
+    if (userHistory) {
+        return userHistory.reduce((acc, curr) => {
+            if (acc.filter((history) =>
+                history.maxPaymentAmount === curr.maxPaymentAmount).length === 0) {
+                acc.push(curr);
+            }
+            return acc
+        }, [])
+    }
+}
+
+export { debounce, formatLoanDetails, formatLoanDataForChart, formatUserHistory };
