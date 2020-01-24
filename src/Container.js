@@ -12,7 +12,8 @@ class Container extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loanDetails: [{}, {}]
+            loanDetails: [{}, {}],
+            userRequests: []
         };
     }
 
@@ -23,6 +24,11 @@ class Container extends React.Component {
                 this.setState({
                     loanDetails: this.state.loanDetails,
                     userRequests: formatUserHistory(response.data.slice(0, 5))
+                })
+            }).catch((e) => {
+                this.setState({
+                    loanDetails: [{}, {}],
+                    userRequests: []
                 })
             })
         }
@@ -92,7 +98,13 @@ class Container extends React.Component {
                     });
                 }
             })
-        ))
+        )).catch((e) => {
+            this.setState({
+                userRequests: this.state.userRequests,
+                maxPaymentAmount,
+                loanDetails: [{}, {}]
+            });
+        })
     }
 }
 
