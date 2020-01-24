@@ -24,6 +24,10 @@ input {
   color: #333;
 }
 
+.recharts-wrapper {
+  margin : 0 auto;
+}
+
 .recharts-cartesian-axis-tick-value {
   fill: white;
 }

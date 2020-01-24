@@ -83,6 +83,8 @@ class Container extends React.Component {
         Promise.all(promises).then((results) => (
             results.map((result) => {
                 if (result.config.url.startsWith('/loan-values')) {
+                    console.log("raw", result.data)
+                    console.log("format", formatLoanDetails(result.data))
                     this.setState({
                         userRequests: this.state.userRequests,
                         maxPaymentAmount,

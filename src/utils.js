@@ -18,8 +18,11 @@ const formatLoanDetails = (loanDetails) => {
             loanDetails: loanDetails[term]
         }
     }).sort((obj1, obj2) => {
-        if (obj1.term < obj2.term) {
+        if (parseInt(obj1.term) < parseInt(obj2.term)) {
             return 1;
+        }
+        else if (parseInt(obj1.term) > parseInt(obj2.term)) {
+            return -1;
         }
         return 0;
     });
