@@ -18,4 +18,4 @@ class UserHistoryService {
 
 }
 
-export default new UserHistoryService();
+export default new UserHistoryService(process.env.REACT_APP_USER_REQUEST_LOG_HISTORY_SERVICE_URL);

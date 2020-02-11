@@ -23,4 +23,4 @@ class UserRequestLogService {
     }
 }
 
-export default new UserRequestLogService();
+export default new UserRequestLogService(process.env.REACT_APP_USER_REQUEST_LOG_SERVICE_URL);

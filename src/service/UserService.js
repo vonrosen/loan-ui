@@ -26,4 +26,4 @@ class UserService {
 
 }
 
-export default new UserService();
+export default new UserService(process.env.REACT_APP_USER_SERVICE_URL);

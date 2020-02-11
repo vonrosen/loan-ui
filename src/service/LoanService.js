@@ -13,4 +13,4 @@ class LoanService {
     }
 }
 
-export default new LoanService();
+export default new LoanService(process.env.REACT_APP_LOAN_SERVICE_URL);
