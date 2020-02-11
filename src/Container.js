@@ -86,19 +86,14 @@ class Container extends React.Component {
         let promises = [];
         promises.push(loanService.getLoanDetails(maxPaymentAmount));
         promises.push(userRequestLogService.createUserRequestLog({ userId, maxPaymentAmount }))
-        Promise.all(promises).then((results) => (
-            results.map((result) => {
-                if (result.config.url.startsWith('/loan-values')) {
-                    console.log("raw", result.data)
-                    console.log("format", formatLoanDetails(result.data))
-                    this.setState({
-                        userRequests: this.state.userRequests,
-                        maxPaymentAmount,
-                        loanDetails: formatLoanDetails(result.data)
-                    });
-                }
-            })
-        )).catch((e) => {
+        Promise.all(promises).then((results) => {
+            const [loanResp, ] = results;
+            this.setState({
+                userRequests: this.state.userRequests,
+                maxPaymentAmount,
+                loanDetails: formatLoanDetails(loanResp.data)
+            });
+        }).catch((e) => {
             this.setState({
                 userRequests: this.state.userRequests,
                 maxPaymentAmount,
