@@ -21,12 +21,12 @@ class LoanDetails extends React.Component {
                 <h1>
                     {term} year fixed
                 </h1>
-                <BarChart margin={{ top: 0, right: 50, bottom: 0, left: 50 }} width={1500} height={300} data={formattedData}>
+                <BarChart margin={{ top: 0, right: 30, bottom: 0, left: 30 }} width={1800} height={300} data={formattedData}>
                     <XAxis dataKey="Rate" tick={{ fontSize: 20 }} />
-                    <YAxis dataKey="LoanAmount" tick={{ fontSize: 16 }} type="number" domain={[0, maxLoanValue]} tickFormatter={
-                        (v) => v.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).split(".")[0]} />
-                    <Bar dataKey="LoanAmount" fill="white" barSize={30}
-                        label={<LoanDetailsBarChartLabel fontSize="14" fill="white" position="top" />} />
+                    <YAxis dataKey="LoanAmount" tick={{ fontSize: 14 }} type="number" domain={[0, maxLoanValue]} tickFormatter={
+                        (v) => ( v.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).split(".")[0] )}/>
+                    <Bar dataKey="LoanAmount" fill="white" barSize={30} barGap={200}
+                        label={<LoanDetailsBarChartLabel fontSize="14" fill="white" position="top" />}/>
                 </BarChart>
             </StyledDiv>
         );
