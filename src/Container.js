@@ -18,20 +18,10 @@ class Container extends React.Component {
     }
 
     componentDidMount() {
-        let userId = Cookies.get("userId");
-        if (userId) {
-            userHistoryService.getUserHistory(userId).then((response) => {
-                this.setState({
-                    loanDetails: this.state.loanDetails,
-                    userRequests: formatUserHistory(response.data.slice(0, 5))
-                })
-            }).catch((e) => {
-                this.setState({
-                    loanDetails: [{}, {}],
-                    userRequests: []
-                })
-            })
-        }
+        this.loadHistory();
+        setInterval(() => {
+            this.loadHistory();
+        }, 5000);
     }
 
     render() {
@@ -52,6 +42,23 @@ class Container extends React.Component {
                 </div>
             </div>
         );
+    }
+
+    loadHistory = () => {
+        let userId = Cookies.get("userId");
+        if (userId) {
+            userHistoryService.getUserHistory(userId).then((response) => {
+                this.setState({
+                    loanDetails: this.state.loanDetails,
+                    userRequests: formatUserHistory(response.data.slice(0, 5))
+                })
+            }).catch((e) => {
+                this.setState({
+                    loanDetails: [{}, {}],
+                    userRequests: []
+                })
+            })
+        }
     }
 
     createUserAndGetLoanDetails = (maxPaymentAmount) => {
