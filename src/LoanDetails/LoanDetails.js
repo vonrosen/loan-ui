@@ -1,7 +1,7 @@
 import React from 'react';
 import { StyledDiv } from './LoanDetailsStyle';
 import LoanDetailsBarChartLabel from './LoanDetailsBarChartLabel';
-import { BarChart, Bar, XAxis, YAxis } from 'recharts';
+import { Label, BarChart, Bar, XAxis, YAxis } from 'recharts';
 import { formatLoanDataForChart } from '../utils';
 
 class LoanDetails extends React.Component {
@@ -23,8 +23,10 @@ class LoanDetails extends React.Component {
                 </h1>
                 <BarChart margin={{ top: 0, right: 30, bottom: 0, left: 30 }} width={1800} height={300} data={formattedData}>
                     <XAxis dataKey="Rate" tick={{ fontSize: 20 }} />
-                    <YAxis dataKey="LoanAmount" tick={{ fontSize: 14 }} type="number" domain={[0, maxLoanValue]} tickFormatter={
-                        (v) => ( v.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).split(".")[0] )}/>
+                    <YAxis padding={{ top: 40 }} dataKey="LoanAmount" tick={{ fontSize: 14 }} type="number" domain={[0, maxLoanValue]} tickFormatter={
+                        (v) => ( v.toLocaleString('en-US', { style: 'currency', currency: 'USD' }).split(".")[0] )}>
+                        <Label value="Loan Amount" position="insideTopLeft" fill="white" fontSize={24} />
+                    </YAxis>
                     <Bar dataKey="LoanAmount" fill="white" barSize={30} barGap={200}
                         label={<LoanDetailsBarChartLabel fontSize="14" fill="white" position="top" />}/>
                 </BarChart>
