@@ -16,13 +16,20 @@ const defaultMaskOptions = {
   allowLeadingZeroes: false,
 }
 
-const PaymentInput = ({ maskOptions, ...inputProps }) => {
-  const currencyMask = createNumberMask({
-    ...defaultMaskOptions,
-    ...maskOptions,
-  })
+class PaymentInput extends React.Component {
+  render() {
+    const { maskOptions, ...inputProps } = this.props;
+    const currencyMask = createNumberMask({
+      ...defaultMaskOptions,
+      ...maskOptions,
+    })
 
-  return <MaskedInput mask={currencyMask} {...inputProps} />;
+    return <div ref={r => this.inputWrapper = r}><MaskedInput mask={currencyMask} {...inputProps} /></div>
+  }
+
+  componentDidMount() {
+    this.inputWrapper.querySelector('input').focus();
+  }
 }
 
 PaymentInput.defaultProps = {
