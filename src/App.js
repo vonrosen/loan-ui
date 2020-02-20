@@ -7,8 +7,13 @@ require('dotenv').config()
 
 function App() {
   return (
-    <div className="App">
-      <Container/>
+    <div>
+      <div>
+        <a href="https://github.com/vonrosen/loan-docs">Click here for architecture and code.</a>
+      </div>
+      <div className="App">
+        <Container/>
+      </div>
     </div>
   );
 }
