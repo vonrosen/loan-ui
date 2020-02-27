@@ -12,7 +12,7 @@ class UserHistory extends React.Component {
                             <div key={userRequest.maxPaymentAmount}>
                                 {userRequest.maxPaymentAmount.toLocaleString('en-US', { style: 'currency', currency: 'USD' })}<br/>
                             </div>
-                        ))}  
+                        ))}
                 </HistoryDiv>
             );
         }

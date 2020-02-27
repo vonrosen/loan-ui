@@ -1,8 +1,11 @@
 import styled from 'styled-components';
 
 const HistoryDiv = styled.div`
-  padding-right: 50px;
-  visibility: ${props => props.userRequests ? "visible" : "hidden"};
+  margin: 5px 5px;
+  height: 130px;
+  border-color: white;
+  border-width: thin;
+  border-style: solid;
 `;
 
 const HistoryTitleDiv = styled.div`
