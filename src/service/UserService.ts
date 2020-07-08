@@ -1,7 +1,8 @@
 const axios = require('axios');
 
 class UserService {
-    constructor(url = 'http://localhost:8081') {
+    axiosInstance: any;
+    constructor(url: string = 'http://localhost:8081') {
         this.axiosInstance = axios.create({
             baseURL: url,
             timeout: 10000,
@@ -16,7 +17,7 @@ class UserService {
         });
     }
 
-    getUser(userId) {
+    getUser(userId: string) {
         return this.axiosInstance.get(`/user/${userId}`, {
             headers: {
                 'content-type': 'application/json'

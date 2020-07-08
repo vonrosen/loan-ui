@@ -1,14 +1,15 @@
 const axios = require('axios');
 
 class UserRequestLogService {
-    constructor(url = 'http://localhost:8082') {
+    axiosInstance: any;
+    constructor(url: string = 'http://localhost:8082') {
         this.axiosInstance = axios.create({
             baseURL: url,
             timeout: 10000,
         });
     }
 
-    createUserRequestLog({ userId, maxPaymentAmount }) {
+    createUserRequestLog({ userId, maxPaymentAmount } : { userId: string, maxPaymentAmount: number}) {
         if (!userId || !maxPaymentAmount) {
             return;
         }

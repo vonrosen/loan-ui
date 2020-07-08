@@ -1,14 +1,15 @@
 const axios = require('axios');
 
 class LoanService {
-    constructor(url='http://localhost:8080') {
+    axiosInstance: any;
+    constructor(url: string='http://localhost:8080') {
         this.axiosInstance = axios.create({
             baseURL: url,
             timeout: 10000,
         });
     }
 
-    getLoanDetails(maxPaymentAmount) {
+    getLoanDetails(maxPaymentAmount: number) {
         return this.axiosInstance.get(`/loan-values?maxPaymentAmount=${maxPaymentAmount}`);
     }
 }
