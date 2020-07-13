@@ -6,13 +6,14 @@ import loanService from './service/LoanService';
 import userService from './service/UserService';
 import userRequestLogService from './service/UserRequestLogService';
 import userHistoryService from './service/UserHistoryService';
+import { LoanDetails } from './model/LoanDetails';
 import { debounce, formatLoanDetails, formatUserHistory } from './utils';
 
 class Container extends React.Component {
     constructor(props) {
         super(props);
         this.state = {
-            loanDetails: [{}, {}],
+            loanDetails: LoanDetails = [{ '15': []}, {'30': []}],
             userRequests: []
         };
     }

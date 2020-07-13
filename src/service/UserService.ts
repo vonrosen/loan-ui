@@ -1,3 +1,4 @@
+import { User } from '../model/User'
 const axios = require('axios');
 
 class UserService {
@@ -9,7 +10,7 @@ class UserService {
         });
     }
 
-    createUser() {
+    createUser() : User {
         return this.axiosInstance.post('/user', {
             headers: {
                 'content-type': 'application/json'
@@ -17,7 +18,7 @@ class UserService {
         });
     }
 
-    getUser(userId: string) {
+    getUser(userId: string) : User {
         return this.axiosInstance.get(`/user/${userId}`, {
             headers: {
                 'content-type': 'application/json'

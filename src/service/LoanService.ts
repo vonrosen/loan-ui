@@ -1,3 +1,4 @@
+import { LoanDetails } from '../model/LoanDetails'
 const axios = require('axios');
 
 class LoanService {
@@ -9,7 +10,7 @@ class LoanService {
         });
     }
 
-    getLoanDetails(maxPaymentAmount: number) {
+    getLoanDetails(maxPaymentAmount: number) : LoanDetails {
         return this.axiosInstance.get(`/loan-values?maxPaymentAmount=${maxPaymentAmount}`);
     }
 }

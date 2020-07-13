@@ -1,3 +1,4 @@
+import { UserHistory } from '../model/UserHistory';
 const axios = require('axios');
 
 class UserHistoryService {
@@ -9,7 +10,7 @@ class UserHistoryService {
         });
     }
 
-    getUserHistory(userId: string) {
+    getUserHistory(userId: string) : UserHistory {
         return this.axiosInstance.get(`/userrequestloghistory/${userId}`, {
             headers: {
                 'content-type': 'application/json'
