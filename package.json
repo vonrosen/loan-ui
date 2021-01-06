@@ -15,7 +15,7 @@
     "react-scripts": "^3.4.1",
     "react-text-mask": "5.4.3",
     "text-mask-addons": "3.8.0",
-    "axios": "0.19.1",
+    "axios": "0.21.1",
     "styled-components": "5.0.0",
     "recharts": "2.0.0-beta.1",
     "cookies-js": "1.2.3",
