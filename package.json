@@ -17,7 +17,7 @@
     "text-mask-addons": "3.8.0",
     "axios": "0.19.1",
     "styled-components": "5.0.0",
-    "recharts": "2.0.0-beta.1",
+    "recharts": "2.1.14",
     "cookies-js": "1.2.3",
     "dotenv": "8.2.0",
     "history": "4.10.1",
